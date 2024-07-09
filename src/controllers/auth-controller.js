@@ -20,11 +20,7 @@ export const registerStudent = async(req, res)=>{
 
 
         // Check if student already have an account
-        const query ={
-            email,
-            matricno
-        }
-        const existingUser =  await userModel.findOne(query);
+        const existingUser =  await userModel.findOne({email: email});
 
         if(existingUser){
             return res.status(401).json({error: "Student already have an account!"})
@@ -40,10 +36,10 @@ export const registerStudent = async(req, res)=>{
 
         await student.save();
 
-        res.status(200).json({status: "Student Registration Successful"});
+        res.status(200).json({message: "Student Registration Successful"});
     } catch (error) {
         console.log('Error in registering student controller:' + error.message);
-        res.status(500).json({error: 'Error in registering student controller' + error.message});
+        res.status(500).json({error: error.message});
     }
 }
 
@@ -60,7 +56,7 @@ export const loginStudent = async(req, res)=>{
         }
 
         // find an existing user with the matric no
-        const existingStudent = await userModel.findOne({matricno});
+        const existingStudent = await userModel.findOne({matricno: matricno});
 
         if(!existingStudent){
             return res.status(404).json({error: "No student existing with this matric number."})
@@ -79,7 +75,7 @@ export const loginStudent = async(req, res)=>{
 
     } catch (error) {
         console.log('Error in login student controller:' + error.message);
-        res.status(500).json({error: 'Error in login student controller:' +  error.message});
+        res.status(500).json({error: error.message});
     }
 }
 
@@ -88,9 +84,9 @@ export const loginStudent = async(req, res)=>{
 // STAFF REGISTRATION
 export const registerStaff = async(req, res)=>{
     try {
-        const {staffid, firstname, lastname, email, password} = req.body;
+        const {staffId, surname, othernames, email, password} = req.body;
 
-        if(!staffid || !firstname || !email || !lastname || !password ){
+        if(!staffId || !surname || !email || !othernames || !password ){
             return res.status(404).json({error: "All fields required!"})
         }
 
@@ -103,7 +99,7 @@ export const registerStaff = async(req, res)=>{
 
 
          // Check if user already have an account
-         const existingStaff =  await staffModel.findOne({email});
+         const existingStaff =  await staffModel.findOne({email: email});
 
          if(existingStaff){
              return res.status(401).json({error: "Staff already have an account!"})
@@ -113,7 +109,7 @@ export const registerStaff = async(req, res)=>{
         // save user to database
         const staff = new staffModel({
             profilePic: `https://avatar.iran.liara.run/public`,
-            staffid, firstname, lastname, email, 
+            staffId, surname, othernames, email, 
             password: hashedPassword
         })
 
@@ -122,7 +118,7 @@ export const registerStaff = async(req, res)=>{
         res.status(200).json("Staff Registration Successful");
     } catch (error) {
         console.log('Error in registering staff controller:' + error.message);
-        res.status(500).json({error: 'Error in registering staff controller: Internal Server Error'});
+        res.status(500).json({error:error.message});
     }
 }
 
@@ -134,19 +130,16 @@ export const loginStaff = async(req, res)=>{
     try {
         const {staffId, password} = req.body;
 
-        if(!staffId || !password ){
-            return res.status(404).json({error: "All fields required!"})
-        }
-
         // find an existing user with the matric no
-        const existingStaff = await userModel.findOne({staffId});
+        const existingStaff = await staffModel.findOne({staffId: staffId});
+
 
         if(!existingStaff){
             return res.status(404).json({error: "No user existing with staff ID."})
         }
     
         // compare user password to that of database
-        const comparePassword = await bcrypt.compare(password, existingStaff?.password);
+        const comparePassword = bcrypt.compare(password, existingStaff?.password);
 
         if(!comparePassword){
             return res.status(401).json({error: "Wrong Password!"})
@@ -158,6 +151,6 @@ export const loginStaff = async(req, res)=>{
 
     } catch (error) {
         console.log('Error in registering staff controller:' + error.message);
-        res.status(500).json({error: 'Error in login staff controller: Internal Server Error:' + error.message});
+        res.status(500).json({error: error.message});
     }
 }

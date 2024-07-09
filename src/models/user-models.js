@@ -5,40 +5,86 @@ const userSchema = new mongoose.Schema({
     surname: {
         type: String,
         trim: true,
+        default: ''
     },
     othernames: {
         type: String,
+        default:''
     },
     email: {
         type: String,
         unique: true,
+        default: ''
     },
     username: {
         type: String,
         trim: true,
         unique: true,
+        default:''
     },
     matricno:{
         type: String,
         trim: true,
+        default:''
     },
-    password: String,
-    programme: String,
-    course_of_study: String,
-    study_centre: String,
-    session: String,
-    phone: String,
-    country: String,
-    state: String,
-    qualification: String,
-    yearOneDocumentUpload: String,
-    yearTwoDocumentUpload: String,
-    yearThreeDocumentUpload: String,
-    yearFourDocumentUpload: String,
+    password:{
+        type: String,
+        default: ''
+    },
+    programme: {
+        type: String,
+         default: '',
+    },
+    course_of_study:{
+        type: String,
+         default: '',
+    },
+    study_centre: {
+        type: String,
+         default: '',
+    },
+    session: {
+        type: String,
+         default: '',
+    },
+    phone: {
+        type: String,
+         default: '',
+    },
+    country: {
+        type: String,
+         default: '',
+    },
+    state: {
+        type: String,
+        default: '',
+         default: '',
+    },
+    qualification: {
+        type: String,
+         default: '',
+    },
+    yearOneDocumentUpload: {
+        type: String,
+         default: '',
+    },
+    yearTwoDocumentUpload: {
+        type: String,
+         default: '',
+    },
+    yearThreeDocumentUpload: {
+        type: String,
+         default: '',
+    },
+    yearFourDocumentUpload: {
+        type: String,
+         default: '',
+    },
     certificateNo: {
         type: String,
         trim: true,
         unique: true,
+        default: '',
     }
 },
 {

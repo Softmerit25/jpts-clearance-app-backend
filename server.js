@@ -1,8 +1,9 @@
 import "dotenv/config";
-import express, { urlencoded } from 'express';
+import express from 'express';
 import cors from 'cors';
 import router from "./src/routes/routes.js";
 import { connectionStatus } from "./src/db/connection.js";
+
 const app = express();
 
 const PORT = 3500;
