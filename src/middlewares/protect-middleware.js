@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import userModel from "../models/user-models";
+import userModel from "../models/user-models.js";
 
 export const protectMiddleware = async (req, res, next)=>{
     try {
@@ -12,7 +12,7 @@ export const protectMiddleware = async (req, res, next)=>{
         let decoded;
 
         try {
-            decoded = await jwt.compare(token, process.env.JWT_SECRET);
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
         } catch (error) {
             console.log('Error decoding user token' + error?.message);
         }
@@ -27,5 +27,6 @@ export const protectMiddleware = async (req, res, next)=>{
         next();
     } catch (error) {
         console.log('Error in protectMiddleware' + error?.message);
+        return res.status(500).json({error: "Error in protect middle ware: Internal Server Error"})
     }
 }

@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     profilePic: String,
     surname: {
         type: String,
-        unique: true,
+        trim: true,
     },
     othernames: {
         type: String,
@@ -15,28 +15,35 @@ const userSchema = new mongoose.Schema({
     },
     username: {
         type: String,
+        trim: true,
         unique: true,
     },
     matricno:{
         type: String,
-        unique: true,
+        trim: true,
     },
     password: String,
     programme: String,
     course_of_study: String,
     study_centre: String,
     session: String,
-    phone: {
-        type: String,
-        unique: true,
-    },
+    phone: String,
     country: String,
     state: String,
-    paymentDocuments: []
+    qualification: String,
+    yearOneDocumentUpload: String,
+    yearTwoDocumentUpload: String,
+    yearThreeDocumentUpload: String,
+    yearFourDocumentUpload: String,
+    certificateNo: {
+        type: String,
+        trim: true,
+        unique: true,
+    }
 },
 {
     timestamps: true,
 })
 
-const userModel = mongoose.models?.students || mongoose.model('Students', userSchema);
+const userModel = mongoose.model('Students', userSchema);
 export default userModel;

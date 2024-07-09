@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "jptsbackend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Merit Jacob",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
