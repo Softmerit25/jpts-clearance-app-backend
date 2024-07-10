@@ -1,10 +1,47 @@
 import userModel from "../models/user-models.js"
 
+
+export const getUserInfo = async (req, res) =>{
+    try {
+        const existingStudent = await userModel.findOne({_id: req.user.id}).select("-password");
+
+        if(!existingStudent){
+            return res.status(404).json({error: "User not authenticated!"})
+        }
+
+        res.status(201).json(existingStudent);
+    } catch (error) {
+        console.log('Error in getting authenticated user info controller:' + error.message);
+        res.status(500).json({error: error.message}); 
+    }
+}
+
+
+
+export const getAllStudents = async (req, res) =>{
+    try {
+        const students = await userModel.find().select("-password");
+        
+        if(!students){
+            return res.status(404).json({error: "Students not found!"})
+        }
+
+        res.status(201).json(students);
+    } catch (error) {
+        console.log('Error in getting all students controller:' + error.message);
+        res.status(500).json({error: error.message}); 
+    }
+}
+
+
+
 export const studentClearanceData = async(req, res)=>{
         try {
-          
+
+        let updatedRecord;
+
         // find existing Student with request header details
-        const existingStudent = await userModel.findByIdAndUpdate({_id: req.user.id});
+        const existingStudent = await userModel.findByIdAndUpdate({_id: req.user.id}).select('-password');
 
         if(!existingStudent){
             return res.status(404).json({error: 'No student found!'})
@@ -31,12 +68,12 @@ export const studentClearanceData = async(req, res)=>{
         existingStudent.yearThreeDocumentUpload = req.body.yearThreeDocumentUpload || existingStudent.yearThreeDocumentUpload,
         existingStudent.yearFourDocumentUpload = req.body.yearFourDocumentUpload || existingStudent.yearFourDocumentUpload,
 
-        await existingStudent.save();
+        updatedRecord = await existingStudent.save();
 
-        res.status(200).json({message: 'Record saved successfully!'});
+        res.status(200).json(updatedRecord);
 
         } catch (error) {
             console.log('Error in student clearance form controller:' + error.message);
-        res.status(500).json({error: 'Error in student clearance form controller: Internal Server Error:' + error.message}); 
+        res.status(500).json({error: error.message}); 
         }
 }

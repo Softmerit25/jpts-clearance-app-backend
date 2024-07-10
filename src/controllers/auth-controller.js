@@ -71,7 +71,8 @@ export const loginStudent = async(req, res)=>{
 
     const token = generateLoginToken(existingStudent?._id, existingStudent?.matricno);
 
-    res.status(200).json(token);
+    const { password: pass, ...payload } = existingStudent._doc
+    res.status(200).json({data: payload, xt: token});
 
     } catch (error) {
         console.log('Error in login student controller:' + error.message);
@@ -113,9 +114,9 @@ export const registerStaff = async(req, res)=>{
             password: hashedPassword
         })
 
-        await staff.save();
+       const payload = await staff.save();
 
-        res.status(200).json("Staff Registration Successful");
+        res.status(200).json({message:"Staff Registration Successful"});
     } catch (error) {
         console.log('Error in registering staff controller:' + error.message);
         res.status(500).json({error:error.message});
@@ -139,15 +140,16 @@ export const loginStaff = async(req, res)=>{
         }
     
         // compare user password to that of database
-        const comparePassword = bcrypt.compare(password, existingStaff?.password);
+        const comparePassword = await bcrypt.compare(password, existingStaff?.password);
 
         if(!comparePassword){
             return res.status(401).json({error: "Wrong Password!"})
         }
 
     const token = generateLoginToken(existingStaff?._id, existingStaff?.staffId);
-
-    res.status(200).json(token);
+    
+    const {password: pass, ...payload } = existingStaff?._doc
+    res.status(200).json({data: payload, token: token});
 
     } catch (error) {
         console.log('Error in registering staff controller:' + error.message);

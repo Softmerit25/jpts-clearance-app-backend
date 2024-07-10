@@ -85,6 +85,11 @@ const userSchema = new mongoose.Schema({
         trim: true,
         unique: true,
         default: '',
+    },
+    clearanceStatus: {
+        type: String,
+        enum: ["pending", "approved"],
+        default: "pending"
     }
 },
 {
