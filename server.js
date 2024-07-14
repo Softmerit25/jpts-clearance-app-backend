@@ -4,9 +4,11 @@ import cors from 'cors';
 import router from "./src/routes/routes.js";
 import { connectionStatus } from "./src/db/connection.js";
 
+
 const app = express();
 
 const PORT = 3500;
+
 
 
 app.use(cors());
@@ -15,9 +17,10 @@ app.use(express.urlencoded({extended: true}));
 app.use('/api/v1', router);
 
 
-app.use("/", (req, res)=>{
-    res.send('JPTS Servers has been hacked!')
-})
+
+// app.use("/", (req, res)=>{
+//     res.send('JPTS Servers has been hacked!')
+// })
 
 
 app.use((err, req, res, next) => {

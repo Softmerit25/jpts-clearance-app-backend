@@ -60,6 +60,7 @@ export const studentClearanceData = async(req, res)=>{
         existingStudent.study_centre = req.body.study_centre || existingStudent.study_centre;
         existingStudent.session = req.body.session || existingStudent.session;
         existingStudent.phone = req.body.phone || existingStudent.phone;
+        existingStudent.gender = req.body.gender || existingStudent.gender;
         existingStudent.country = req.body.country || existingStudent.country;
         existingStudent.state = req.body.state || existingStudent.state;
         existingStudent.qualification = req.body.qualification || existingStudent.qualification;

@@ -4,92 +4,111 @@ const userSchema = new mongoose.Schema({
     profilePic: String,
     surname: {
         type: String,
-        trim: true,
-        default: ''
+        required: true,
     },
     othernames: {
         type: String,
-        default:''
+        required: true,
     },
     email: {
         type: String,
         unique: true,
-        default: ''
+        required: true,
     },
     username: {
         type: String,
         trim: true,
         unique: true,
-        default:''
+        required: true,
     },
     matricno:{
         type: String,
         trim: true,
-        default:''
+        required:true,
     },
     password:{
         type: String,
-        default: ''
+        required: true,
     },
     programme: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     course_of_study:{
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     study_centre: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     session: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     phone: {
         type: String,
-         default: '',
+         default:"",
+         trim: true,
+    },
+    gender: {
+        type: String,
+        default:"",
+        trim: true,
     },
     country: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     state: {
         type: String,
-        default: '',
-         default: '',
+        default: "",
+        trim: true,
     },
     qualification: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     yearOneDocumentUpload: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     yearTwoDocumentUpload: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     yearThreeDocumentUpload: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     yearFourDocumentUpload: {
         type: String,
-         default: '',
+         default: "",
+         trim: true,
     },
     certificateNo: {
         type: String,
         trim: true,
-        unique: true,
-        default: '',
+        default: "",
     },
     clearanceStatus: {
         type: String,
-        enum: ["pending", "approved"],
-        default: "pending"
+        enum: ["pending", "reject", "approved"],
+        default: "pending",
+        trim: true,
+    },
+    editable: {
+        type: Boolean,
+        default: true,
     }
 },
 {
