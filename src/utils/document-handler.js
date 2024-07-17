@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 export const documentUploadHander = async (req, res) => {
         try {
             const file = req.file;
-            const fName = file?.originalname;
+            const fName = file?.originalname?.split('.')[0];
   
             if(!file){
                  return res.status(404).json({error: "No file was uploaded!"});
