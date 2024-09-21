@@ -21,9 +21,9 @@ app.use('/api/v1', router);
 
 
 
-// app.use("/", (req, res)=>{
-//     res.send('JPTS Servers has been hacked!')
-// })
+app.use("/", (req, res)=>{
+    res.send('JPTS Servers has been hacked!')
+})
 
 
 app.use((err, req, res, next) => {
