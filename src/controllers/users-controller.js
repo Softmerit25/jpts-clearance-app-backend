@@ -149,21 +149,15 @@ export const clearanceRejection = async (req, res) =>{
 
 
 export const clearanceVerifcation = async (req, res) =>{
-
-    const {userId} = req.params;
     const {certificateNo} = req.body;
 
     try {
-        const existingStudent = await userModel.findById({_id: userId}).select("-password");
+        const existingStudent = await userModel.findOne({certificateNo: certificateNo}).select("-password");
 
         if(!existingStudent){
             return res.status(404).json({error: "User not found!"})
         }
 
-        if(existingStudent?.certificateNo !== certificateNo){
-            return res.status(401).json({error: "User found but Certificate Number do not match!"})
-        }
-        
         const data = {
             certificateNo: existingStudent?.certificateNo,
             studentName: `${existingStudent?.surname} ${existingStudent?.othernames}`

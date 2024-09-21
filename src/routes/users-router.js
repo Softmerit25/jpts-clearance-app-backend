@@ -8,5 +8,5 @@ usersRouter.post('/student/clearance', protectMiddleware, studentClearanceData);
 usersRouter.get('/student/all-students', getAllStudents);
 usersRouter.patch('/student/clearance/approve/:userId', clearanceApproval);
 usersRouter.post('/student/clearance/reject/:userId', clearanceRejection);
-usersRouter.post('/student/clearance/verify/:userId', clearanceVerifcation);
+usersRouter.post('/student/clearance/verify', clearanceVerifcation);
 export default usersRouter;

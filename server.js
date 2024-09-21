@@ -12,7 +12,7 @@ const PORT = 3500;
 
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://jpts-dashboard.netlify.app'],
+    origin: ['http://localhost:5173', 'https://jptsdashboard.netlify.app'],
     credentials: true,
 }));
 app.use(express.json());
