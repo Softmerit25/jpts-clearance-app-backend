@@ -67,10 +67,12 @@ export const studentClearanceData = async(req, res)=>{
         existingStudent.country = req.body.country || existingStudent.country;
         existingStudent.state = req.body.state || existingStudent.state;
         existingStudent.qualification = req.body.qualification || existingStudent.qualification;
-        existingStudent.yearOneDocumentUpload = req.body.yearOneDocumentUpload || existingStudent.yearOneDocumentUpload,
-        existingStudent.yearTwoDocumentUpload = req.body.yearTwoDocumentUpload || existingStudent.yearTwoDocumentUpload,
-        existingStudent.yearThreeDocumentUpload = req.body.yearThreeDocumentUpload || existingStudent.yearThreeDocumentUpload,
-        existingStudent.yearFourDocumentUpload = req.body.yearFourDocumentUpload || existingStudent.yearFourDocumentUpload,
+        existingStudent.yearOneDocumentUpload = req.body.yearOneDocumentUpload || existingStudent.yearOneDocumentUpload;
+        existingStudent.yearTwoDocumentUpload = req.body.yearTwoDocumentUpload || existingStudent.yearTwoDocumentUpload;
+        existingStudent.yearThreeDocumentUpload = req.body.yearThreeDocumentUpload || existingStudent.yearThreeDocumentUpload;
+        existingStudent.yearFourDocumentUpload = req.body.yearFourDocumentUpload || existingStudent.yearFourDocumentUpload;
+        
+        existingStudent.clearanceStatus = "pending";
 
         updatedRecord = await existingStudent.save();
 
@@ -85,9 +87,10 @@ export const studentClearanceData = async(req, res)=>{
 
 // handle user clearance approval
 export const clearanceApproval = async (req, res) =>{
-    const {userId} = req.params;
+    const { userId } = req.params;
+ 
     try {
-        const existingStudent = await userModel.findOne({_id: userId}).select("-password");
+        const existingStudent = await userModel.findById({_id: userId}).select("-password");
 
         if(!existingStudent){
             return res.status(404).json({error: "User not found!"})
@@ -99,9 +102,9 @@ export const clearanceApproval = async (req, res) =>{
             $set: {editable: false, certificateNo: certificateNo, clearanceStatus: 'approved'}
         }, {new: true});
         
-
+        const mailSubject = "Clearance Approved - Kindly print it out";
         // SEND USER APPROVED CLEARANCE CERTIFICATE TO EMAIL:
-        await handleMailDelivery(user = approved, mailSubject = "Clearance Approved - Kindly print it out", ApprovedMailTemplate(approved, certificateNo));
+        await handleMailDelivery(approved, mailSubject, null, ApprovedMailTemplate);
 
         res.status(201).json({status:'success', message:"User Clearance Approved", payload: approved});
 
@@ -120,7 +123,7 @@ export const clearanceRejection = async (req, res) =>{
     const {userId} = req.params;
 
     try {
-        const existingStudent = await userModel.findOne({_id: userId}).select("-password");
+        const existingStudent = await userModel.findById({_id: userId}).select("-password");
 
         if(!existingStudent){
             return res.status(404).json({error: "User not found!"})
@@ -131,9 +134,9 @@ export const clearanceRejection = async (req, res) =>{
             $set: {clearanceStatus: 'rejected'}
         }, {new: true});
         
-
+        const mailSubject = "Clearance Rejected";
         // SEND USER REJECTION CLEARANCE STATUS TO EMAIL:
-        await handleMailDelivery(user = reject, mailSubject = "Clearance Rejected", RejectMailTemplate(reject, reason));
+        await handleMailDelivery(reject, mailSubject, reason, RejectMailTemplate);
 
         res.status(201).json({status:'success', message: 'User Clearance Rejection Successful', payload: reject});
 
@@ -151,7 +154,7 @@ export const clearanceVerifcation = async (req, res) =>{
     const {certificateNo} = req.body;
 
     try {
-        const existingStudent = await userModel.findOne({_id: userId}).select("-password");
+        const existingStudent = await userModel.findById({_id: userId}).select("-password");
 
         if(!existingStudent){
             return res.status(404).json({error: "User not found!"})
@@ -161,7 +164,11 @@ export const clearanceVerifcation = async (req, res) =>{
             return res.status(401).json({error: "User found but Certificate Number do not match!"})
         }
         
-        res.status(201).json({status:'success', message: 'Certificate Retrived Successful', payload: existingStudent?.certificateNo});
+        const data = {
+            certificateNo: existingStudent?.certificateNo,
+            studentName: `${existingStudent?.surname} ${existingStudent?.othernames}`
+        }
+        res.status(201).json({status:'success', message: 'Certificate Retrived Successful', payload: data});
 
     } catch (error) {
         console.log('Error in user clearance reject controller:' + error.message);

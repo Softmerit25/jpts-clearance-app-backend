@@ -10,14 +10,10 @@ const mail = nodemailer.createTransport({
         user: process.env.EMAIL_AUTH_USER,
         pass: process.env.EMAIL_AUTH_PASS,
     },
-    tls: {
-        rejectUnauthorized: false,
-      },
-      ignoreTLS: false,
   });
 
 
-  export const handleMailDelivery = async(user, mailSubject, mailBody) =>{
+  export const handleMailDelivery = async(user, mailSubject, reason, mailBody) =>{
 
      // verify connection configuration
      mail.verify(function (error, success) {
@@ -28,18 +24,23 @@ const mail = nodemailer.createTransport({
         }
     });
 
-
-    const template = mailBody();
     
     try {
+
      const mailOption = {
       from: '"JPTS Institute" <softmerit25@gmail.com>', 
       to: user?.email, 
       subject: mailSubject, 
-      html: template,
+      html: reason ? mailBody(user, reason) : mailBody(user),
      } 
         
-    await mail.sendMail(mailOption);
+     mail.sendMail(mailOption, async(error, data)=>{
+    if(error){
+            console.log('Error sending mail', error);
+        }else{
+            console.log('Email sent!', data?.messageId)
+        }
+    });
     
     } catch (error) {
         console.log('Error in sending mail controller', + error.message);

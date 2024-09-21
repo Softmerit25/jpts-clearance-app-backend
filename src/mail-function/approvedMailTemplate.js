@@ -1,4 +1,4 @@
-export const ApprovedMailTemplate = (user, certificateNo)=>{
+export const ApprovedMailTemplate = (user)=>{
     const date = new Date();
     const options = { year: 'numeric', month: 'long', day: '2-digit' };
     const formatDate = date && date?.toLocaleDateString('en-US', options);
@@ -37,7 +37,7 @@ To whom it may concern:
 <p style="font-size: 14px; font-family: Trirong, serif;">
 This is to certify that <strong>${user?.surname} ${user?.othernames}</strong> with Matric No: <strong>${user?.matricno}</strong> 
 is a student of aforementioned Institute, <strong>${user?.study_centre} Centre</strong> has been cleared for all academic requirements for which he/she 
-is responsible as to this date with his/her completion of Course of Study <strong>${user?.course_of_study}</strong> with Certificate Clearance Number: <strong>${certificateNo}</strong>.
+is responsible as to this date with his/her completion of Course of Study <strong>${user?.course_of_study}</strong> with Certificate Clearance Number: <strong>${user?.certificateNo}</strong>.
 </p>
 
 <p style="font-size: 14px; font-family: Trirong, serif;">

@@ -28,15 +28,19 @@ export const RejectMailTemplate = (user, reason) => {
 </p>
 
 <p style="font-size: 14px; font-family: Trirong, serif;">
-    ${reason}
+    <strong>Reason:</strong> ${reason} 
 </p>
 
 <p style="font-size: 14px; font-family: Trirong, serif;">
 Also, log into the clearance app to meet up with reasons for rejection by updating your clearance information.
 </p>
 
+
+<div style="text-align: center; margin-top: 50px">
 <span>Registrar</span><br/>
-<span>JPTS Institue of Science, Management &amp; Technology.</span>
+<span>JPTS Institue of Science,<br/> Management &amp; Technology.</span>
+</div>
+
 
 </div>
 </body>
